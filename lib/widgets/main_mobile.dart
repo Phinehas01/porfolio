@@ -56,7 +56,11 @@ class MainMobile extends StatelessWidget {
                   vertical: 15.0,
                 ),
               ),
-              child: const Text("Get in touch"),
+              child: const Text("Get in touch",
+              style: TextStyle(
+                color: Colors.white
+              ),
+              ),
             ),
           ),
         ],

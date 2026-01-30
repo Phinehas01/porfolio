@@ -41,7 +41,7 @@ class ProjectCardWidget extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
             child: Text(
               project.subtitle,
-              style: TextStyle(fontSize: 6, color: CustomColor.whiteSecondary),
+              style: TextStyle(fontSize: 12, color: CustomColor.whiteSecondary),
             ),
           ),
           Container(
@@ -62,23 +62,20 @@ class ProjectCardWidget extends StatelessWidget {
                     onTap: () {
                       js.context.callMethod("open", [project.androidLink]);
                     },
-                    child: InkWell(
-                      onTap: () {
-                        js.context.callMethod("open", [project.iosLink]);
-                      },
-                      child: Icon(
-                        Icons.android,
-                        size: 16,
-                        color: CustomColor.whitePrimary,
-                      ),
+
+                    child: Icon(
+                      Icons.android,
+                      size: 16,
+                      color: CustomColor.whitePrimary,
                     ),
                   ),
+
                 if (project.iosLink != null)
                   Padding(
                     padding: const EdgeInsets.only(left: 6.0),
                     child: InkWell(
                       onTap: () {
-                        js.context.callMethod("open", [project.webLink]);
+                        js.context.callMethod("open", [project.androidLink]);
                       },
                       child: Icon(
                         Icons.apple,
@@ -91,7 +88,9 @@ class ProjectCardWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 6.0),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        js.context.callMethod("open", [project.webLink]);
+                      },
                       child: Icon(
                         Icons.language,
                         size: 16,
