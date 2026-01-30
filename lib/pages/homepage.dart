@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/constants/colors.dart';
 import 'package:my_portfolio/constants/size.dart';
-import 'package:my_portfolio/widgets/customTextfield.dart';
+import 'package:my_portfolio/widgets/contactSection.dart';
 import 'package:my_portfolio/widgets/drawerMobile.dart';
+import 'package:my_portfolio/widgets/footerWidget.dart';
+import 'package:my_portfolio/widgets/headerDesktop.dart';
+import 'package:my_portfolio/widgets/headerMobile.dart';
+import 'package:my_portfolio/widgets/main_desktop.dart';
+import 'package:my_portfolio/widgets/main_mobile.dart';
+import 'package:my_portfolio/widgets/projectDesktop.dart';
+import 'package:my_portfolio/widgets/skills_Desktop.dart';
+import 'package:my_portfolio/widgets/skills_mobile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +21,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ScaffoldKey = GlobalKey<ScaffoldState>();
+  final scrollCOntroller = ScrollController();
+
+  final List<GlobalKey> navbarKeys = List.generate(4, (index) => GlobalKey());
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -27,124 +39,64 @@ class _HomePageState extends State<HomePage> {
           endDrawer: Constraints.maxWidth >= kMinDesktopWidth
               ? null
               : const DrawerMobile(),
-          body: ListView(
+          body: SingleChildScrollView(
+            controller: scrollCOntroller,
             scrollDirection: Axis.vertical,
-            children: [
-              //MAIN
-              // if (Constraints.maxWidth >= kMinDesktopWidth)
-              //   const HeaderDesktop()
-              // else
-              //   HeaderMobile(
-              //     onLogoTap: () {},
-              //     onMenuTap: () {
-              //       ScaffoldKey.currentState?.openEndDrawer();
-              //     },
-              //   ),
-              // if (Constraints.maxWidth >= kMinDesktopWidth)
-              //   const MainDesktop()
-              // else
-              //   const MainMobile(),
+            child: Column(
+              children: [
+                SizedBox(key: navbarKeys.first),
+                //MAIN
+                if (Constraints.maxWidth >= kMinDesktopWidth)
+                  const HeaderDesktop()
+                else
+                  HeaderMobile(
+                    onLogoTap: () {},
+                    onMenuTap: () {
+                      ScaffoldKey.currentState?.openEndDrawer();
+                    },
+                  ),
+                if (Constraints.maxWidth >= kMinDesktopWidth)
+                  const MainDesktop()
+                else
+                  const MainMobile(),
 
-              // //SKILLS
-              // Container(
-              //   width: screenWidth,
-              //   padding: const EdgeInsets.fromLTRB(25, 20, 25, 60),
-              //   color: CustomColor.bgLight1,
-              //   child: Column(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: [
-              //       Text(
-              //         "My Skills",
-              //         style: TextStyle(
-              //           fontSize: 24,
-              //           fontWeight: FontWeight.bold,
-              //           color: CustomColor.whitePrimary,
-              //         ),
-              //       ),
-              //       const SizedBox(height: 50),
-              //       //skill widgets here
-              //       if (Constraints.maxWidth >= kMedDesktopWidth)
-              //         const SkillsDesktop()
-              //       else
-              //         const SkillsMobile(),
-              //     ],
-              //   ),
-              // ),
-              // //PROJECTS
-              // const Projectdesktop(),
-              const SizedBox(height: 30),
-              //CONTACT
-              Container(
-                padding: const EdgeInsets.fromLTRB(25, 20, 25, 60),
-                color: CustomColor.bgLight1,
-                child: Column(
-                  children: [
-                    Text(
-                      "Get in touch",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        color: CustomColor.whitePrimary,
-                      ),
-                    ),
-                    SizedBox(height: 50),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 700),
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: CustomTextfield(hintText: "Your name"),
-                          ),
-                          SizedBox(width: 20),
-                          Flexible(
-                            child: CustomTextfield(hintText: "Your email"),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 700),
-                      child: CustomTextfield(
-                        hintText: "Type your message here",
-
-                        maxLine: 20,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: 700,
-                      ),
-                      child: SizedBox(
-                        width: double.maxFinite,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: CustomColor.yellowSecondary,
-                          ),
-                          child: Text(
-                            "Get in touch",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                //SKILLS
+                Container(
+                  key: navbarKeys[1],
+                  width: screenWidth,
+                  padding: const EdgeInsets.fromLTRB(25, 20, 25, 60),
+                  color: CustomColor.bgLight1,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "My Skills",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: CustomColor.whitePrimary,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 30,),
-                   ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: 300,
-                      ),
-                      child: const Divider()),
-                      const SizedBox(height: 15,),
-                      //Socials icon buttons
-
-                  ],
+                      const SizedBox(height: 50),
+                      //skill widgets here
+                      if (Constraints.maxWidth >= kMedDesktopWidth)
+                        const SkillsDesktop()
+                      else
+                        const SkillsMobile(),
+                    ],
+                  ),
                 ),
-              ),
-              //FOOTER
-              SizedBox(height: 500, width: double.infinity),
-            ],
+                //PROJECTS
+                Projectdesktop(key: navbarKeys[2],),
+                const SizedBox(height: 30),
+                //CONTACT
+                Contactsection(key: navbarKeys[3],),
+                const SizedBox(height: 10),
+
+                //FOOTER
+                Footerwidget(),
+              ],
+            ),
           ),
         );
       },
