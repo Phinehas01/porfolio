@@ -85,26 +85,27 @@ class SkillsDesktop extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(width: 50),
-            Flexible(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 450),
-                child: Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    for (int i = 0; i < skillItems.length; i++)
-                      Chip(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        backgroundColor: CustomColor.bgLight2,
-                        label: Text(skillItems[i]["title"]),
-                        avatar: Image.asset(skillItems[i]["img"]),
+
+            // ✅ FIX: Removed Flexible (was causing ParentDataWidget error)
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 450),
+              child: Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  for (int i = 0; i < skillItems.length; i++)
+                    Chip(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
                       ),
-                  ],
-                ),
+                      backgroundColor: CustomColor.bgLight2,
+                      label: Text(skillItems[i]["title"]),
+                      avatar: Image.asset(skillItems[i]["img"]),
+                    ),
+                ],
               ),
             ),
           ],

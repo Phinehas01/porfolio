@@ -4,7 +4,6 @@ import 'dart:js' as js;
 
 import 'package:my_portfolio/constants/smsLinks.dart';
 
-
 class MainDesktop extends StatelessWidget {
   const MainDesktop({super.key});
 
@@ -29,7 +28,7 @@ class MainDesktop extends StatelessWidget {
                   fontSize: 30.0,
                   height: 1.5,
                   fontWeight: FontWeight.bold,
-                  color:Colors.white,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 15.0),
@@ -37,7 +36,7 @@ class MainDesktop extends StatelessWidget {
                 width: 250,
                 child: ElevatedButton(
                   onPressed: () {
-                  js.context.callMethod('open', [Smslinks.call]);
+                    js.context.callMethod('open', [Smslinks.call]);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: CustomColor.yellowPrimary,
@@ -46,7 +45,10 @@ class MainDesktop extends StatelessWidget {
                       vertical: 15.0,
                     ),
                   ),
-                  child: const Text("Get in touch"),
+                  child: const Text(
+                    "Get in touch",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],
