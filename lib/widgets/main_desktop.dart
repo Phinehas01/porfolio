@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/constants/colors.dart';
+import 'dart:js' as js;
+
+import 'package:my_portfolio/constants/smsLinks.dart';
+
 
 class MainDesktop extends StatelessWidget {
   const MainDesktop({super.key});
@@ -25,14 +29,16 @@ class MainDesktop extends StatelessWidget {
                   fontSize: 30.0,
                   height: 1.5,
                   fontWeight: FontWeight.bold,
-                  color: CustomColor.whitePrimary,
+                  color:Colors.white,
                 ),
               ),
               const SizedBox(height: 15.0),
               SizedBox(
                 width: 250,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                  js.context.callMethod('open', [Smslinks.call]);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: CustomColor.yellowPrimary,
                     padding: const EdgeInsets.symmetric(

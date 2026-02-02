@@ -23,7 +23,7 @@ class ProjectCardWidget extends StatelessWidget {
         children: [
           Image.asset(
             project.image,
-            height: 140,
+            height: 180,
             width: 250,
             fit: BoxFit.cover,
           ),
@@ -50,7 +50,7 @@ class ProjectCardWidget extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  "Flutter",
+                  project.tech,
                   style: TextStyle(
                     fontSize: 10,
                     color: CustomColor.yellowPrimary,

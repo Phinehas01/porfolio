@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/constants/colors.dart';
 import 'package:my_portfolio/constants/size.dart';
+import 'package:my_portfolio/constants/smsLinks.dart';
 import 'package:my_portfolio/widgets/contactSection.dart';
 import 'package:my_portfolio/widgets/drawerMobile.dart';
 import 'package:my_portfolio/widgets/footerWidget.dart';
+import 'package:my_portfolio/widgets/getInTouch.dart';
 import 'package:my_portfolio/widgets/headerDesktop.dart';
 import 'package:my_portfolio/widgets/headerMobile.dart';
 import 'package:my_portfolio/widgets/main_desktop.dart';
@@ -11,6 +13,7 @@ import 'package:my_portfolio/widgets/main_mobile.dart';
 import 'package:my_portfolio/widgets/projectDesktop.dart';
 import 'package:my_portfolio/widgets/skills_Desktop.dart';
 import 'package:my_portfolio/widgets/skills_mobile.dart';
+import 'dart:js' as js;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height;
 
     return LayoutBuilder(
       builder: (context, Constraints) {
@@ -38,7 +40,13 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: CustomColor.ScaffoldBg,
           endDrawer: Constraints.maxWidth >= kMinDesktopWidth
               ? null
-              : const DrawerMobile(),
+              : DrawerMobile(
+                  onNavItemTap: (int navIndex) {
+                    //call function
+                    ScaffoldKey.currentState?.closeEndDrawer();
+                    scrollToSection(navIndex);
+                  },
+                ),
           body: SingleChildScrollView(
             controller: scrollCOntroller,
             scrollDirection: Axis.vertical,
@@ -47,7 +55,12 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(key: navbarKeys.first),
                 //MAIN
                 if (Constraints.maxWidth >= kMinDesktopWidth)
-                  const HeaderDesktop()
+                  HeaderDesktop(
+                    onNavMenuTap: (int navIndex) {
+                      //call func
+                      scrollToSection(navIndex);
+                    },
+                  )
                 else
                   HeaderMobile(
                     onLogoTap: () {},
@@ -87,19 +100,33 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 //PROJECTS
-                Projectdesktop(key: navbarKeys[2],),
-                const SizedBox(height: 30),
-                //CONTACT
-                Contactsection(key: navbarKeys[3],),
+                Projectdesktop(key: navbarKeys[2]),
+                const SizedBox(height: 4),
+                SizedBox(height: 5,),
+                const Getintouch(),
+                //Social CONTACT
+                Contactsection(key: navbarKeys[3]),
                 const SizedBox(height: 10),
 
                 //FOOTER
-                Footerwidget(),
+                const Footerwidget(),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  void scrollToSection(int navIndex) {
+    if (navIndex == 4) {
+      js.context.callMethod('open', [Smslinks.blog]);
+    }
+    final key = navbarKeys[navIndex];
+    Scrollable.ensureVisible(
+      key.currentContext!,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
     );
   }
 }
